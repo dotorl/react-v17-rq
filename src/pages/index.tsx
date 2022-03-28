@@ -1,25 +1,24 @@
 import axios from 'axios';
-import React from 'react';
+import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import useParams from '@hooks/useParams';
+import Header from '@components/Header';
 
 const index = () => {
 	const params = useParams();
 	const albumId = params.get('id');
+	const [contentInfo, setContentInfo] = useState({});
 	// const history = useHistory();
 
 	useEffect(() => {
-		console.log(params.get('id'));
-
-		if (params.get('id')) {
-			// history.replace('/detail/' + params.get('id'));
+		if (!albumId) {
+			console.log('id 없으면 default 화면 보여주기');
 		}
-
 		setTimeout(() => {
 			testMockAPI();
 		}, 1000);
-	}, []);
+	}, [albumId]);
 
 	const testMockAPI = async () => {
 		const mockSettingAPI = await axios.get('/setting');
@@ -27,6 +26,7 @@ const index = () => {
 
 		const mockInfoAPI = await axios.get('/info');
 		console.log(mockInfoAPI);
+		setContentInfo(mockInfoAPI.data.record);
 	};
 
 	return (
@@ -35,26 +35,9 @@ const index = () => {
 				<>
 					<div className="sec_left">
 						<div className="sec_left_scroll">
-							<div className="plain-header-wrapper overlay">
-								<div
-									style={{
-										backgroundColor: '#0d0d0d',
-										width: '100%',
-										height: '100%',
-										position: 'absolute',
-										borderBottom: '1px solid #525252',
-										opacity: 0,
-									}}
-								></div>
-								<div className="btn-press usetap">
-									<i className="btn btn-prev"></i>
-								</div>
+							<Header contentInfo={contentInfo} onClickBack={() => {}} />
 
-								<p className="text-center title" style={{ opacity: 0 }}>
-									도도녀 길들이기
-								</p>
-							</div>
-
+							{/* DummyPlater */}
 							<div className="vod vod-type-2 vod-fix-wrap">
 								<div className="vod-wrapper vod-fix">
 									<div className="inner">
@@ -67,6 +50,7 @@ const index = () => {
 									</div>
 								</div>
 							</div>
+
 							<div className="vod-detail-type1">
 								<div className="box_twogrid">
 									<div className="title-area">
