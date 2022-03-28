@@ -1,37 +1,63 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import useParams from '@hooks/useParams';
 import Header from '@components/detail/Header';
+import Title from '@components/detail/Title';
+import ContentInfo from '@interfaces/ContentInfo';
+import { useQuery } from 'react-query';
+import { getContentInfo, getSetting } from '../api/index';
 
 const index = () => {
 	const params = useParams();
 	const albumId = params.get('id');
-	const [contentInfo, setContentInfo] = useState({});
-	// const history = useHistory();
+
+	// const { data: settingData } = useQuery('contentInfo', async () => {
+	// 	const { data } = await axios.get('/setting');
+	// 	return data;
+	// });
+	// const { data: settingData } = useQuery('contentInfo', getSetting);
+	const {
+		isLoading,
+		isSuccess,
+		isError,
+		data: contentInfo,
+	} = useQuery<ContentInfo, Error>('contentInfo', getContentInfo, {
+		retry: 1,
+		// staleTime: 6000,
+		cacheTime: 3000,
+	});
 
 	useEffect(() => {
+		console.log('%c #################  albumId', 'color:#ff0');
 		if (!albumId) {
+			// TODO: id 없으면 default 화면 보여주기
 			console.log('id 없으면 default 화면 보여주기');
 		}
-		setTimeout(() => {
-			testMockAPI();
-		}, 1000);
 	}, [albumId]);
 
-	const testMockAPI = async () => {
-		const mockSettingAPI = await axios.get('/setting');
-		console.log(mockSettingAPI);
+	useEffect(() => {
+		// TODO ERROR
+		console.log('%c #################  error ', 'color:#ff0');
+		console.log(isError);
+	}, [isError]);
 
-		const mockInfoAPI = await axios.get('/info');
-		console.log(mockInfoAPI);
-		setContentInfo(mockInfoAPI.data.record);
-	};
+	useEffect(() => {
+		console.log('useQuery :: ');
+		console.log(contentInfo);
+	}, [contentInfo]);
+
+	if (isLoading) {
+		return <>Loading....</>;
+	}
+
+	if (isError) {
+		return <>ERROR</>;
+	}
 
 	return (
 		<>
-			{albumId ? (
+			{albumId && isSuccess ? (
 				<>
 					<div className="sec_left">
 						<div className="sec_left_scroll">
@@ -53,15 +79,7 @@ const index = () => {
 
 							<div className="vod-detail-type1">
 								<div className="box_twogrid">
-									<div className="title-area">
-										<h2>도도녀 길들이기 </h2>
-										<p>
-											<a className="genre">로맨스</a>
-											<a className="date">2019.01.01</a>
-											<a className="running">88분</a>
-											<a className="grade">청소년 관람불가</a>
-										</p>
-									</div>
+									<Title contentInfo={contentInfo} />
 									<div className="btn-wrapper detail">
 										<li>
 											<a className="btn-poke">찜</a>
