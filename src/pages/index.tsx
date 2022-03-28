@@ -31,14 +31,21 @@ const index = () => {
 
 	return (
 		<>
-			<div>index</div>
-
 			{albumId ? (
 				<>
 					<div className="sec_left">
 						<div className="sec_left_scroll">
 							<div className="plain-header-wrapper overlay">
-								<div></div>
+								<div
+									style={{
+										backgroundColor: '#0d0d0d',
+										width: '100%',
+										height: '100%',
+										position: 'absolute',
+										borderBottom: '1px solid #525252',
+										opacity: 0,
+									}}
+								></div>
 								<div className="btn-press usetap">
 									<i className="btn btn-prev"></i>
 								</div>
@@ -54,7 +61,7 @@ const index = () => {
 										<div className="box">
 											<div className="info thumb-type-4">
 												<a className="btn btn-play-1 usetap"></a>
-												<img src="http://210.182.60.11/resize.php?filename=M01201L235PPV00MA130.png&width=&height=&type=thumbnail" />
+												<img src="http://210.182.60.11/still/ST_M0116C2015PPV00_165200.jpg" style={{ opacity: 1 }} />
 											</div>
 										</div>
 									</div>
@@ -165,10 +172,6 @@ const index = () => {
 			) : (
 				<p> no params</p>
 			)}
-			<br />
-			<Link to="/detail">Go Detail</Link>
-			<br />
-			<Link to="/detail?id=123">Go Detail 123</Link>
 		</>
 	);
 };
