@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { useState } from 'react';
 import classNames from 'classnames';
 
 interface Props {
@@ -8,10 +8,11 @@ interface Props {
 	onTouchStart?: () => void;
 	onTouchEnd?: () => void;
 	onTouchCancel?: () => void;
+	children?: JSX.Element;
 	style?: any;
 }
 
-const index: FC<Props> = ({ containerClass, children, onClick, style, onTouchStart, onTouchEnd, onTouchCancel }) => {
+const FocusButton = ({ containerClass, children, onClick, style, onTouchStart, onTouchEnd, onTouchCancel }: Props) => {
 	const [isActive, setIsActive] = useState(false);
 
 	const onTouchStartFunc = () => {
@@ -56,4 +57,4 @@ const index: FC<Props> = ({ containerClass, children, onClick, style, onTouchSta
 	);
 };
 
-export default index;
+export default FocusButton;

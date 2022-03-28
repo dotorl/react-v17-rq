@@ -1,16 +1,16 @@
 import FocusButton from '@components/FocusButton';
-import React, { FC, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface Props {
 	contentInfo: any;
 	onClickBack?: () => void;
 }
 
-const index = ({ contentInfo, onClickBack }) => {
+const Header = ({ contentInfo, onClickBack }: Props) => {
 	const [opacity, setOpacity] = useState(0);
 
 	useEffect(() => {
-		console.log('contentInfo ', contentInfo);
+		console.log('contentInfo :  ', contentInfo);
 	}, [contentInfo]);
 
 	const onClickBackFunc = () => {
@@ -32,4 +32,4 @@ const index = ({ contentInfo, onClickBack }) => {
 	);
 };
 
-export default index;
+export default Header;
