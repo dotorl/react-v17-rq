@@ -1,4 +1,4 @@
-import FocusButton from '@components/FocusButton';
+import FocusButton from '@components/Detail/FocusButton';
 import React, { useEffect, useState } from 'react';
 
 interface Props {

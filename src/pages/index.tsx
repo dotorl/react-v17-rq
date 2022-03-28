@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import useParams from '@hooks/useParams';
-import Header from '@components/Header';
+import Header from '@components/detail/Header';
 
 const index = () => {
 	const params = useParams();
