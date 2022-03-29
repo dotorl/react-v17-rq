@@ -16,16 +16,22 @@ const index = () => {
 	// 	const { data } = await axios.get('/setting');
 	// 	return data;
 	// });
-	// const { data: settingData } = useQuery('contentInfo', getSetting);
+
+	const { data: settingData } = useQuery('settingInfo', getSetting);
 	const {
 		isLoading,
 		isSuccess,
 		isError,
+		isFetching,
 		data: contentInfo,
 	} = useQuery<ContentInfo, Error>('contentInfo', getContentInfo, {
 		retry: 1,
-		// staleTime: 6000,
+		staleTime: 6000,
 		cacheTime: 3000,
+		//! The query will not execute until the settingData exists
+		// enabled: !!settingData,
+		// initialData: {}				// 캐시에 유지
+		// placeholderData: {}	// 캐시에 유지 X
 	});
 
 	useEffect(() => {
@@ -61,7 +67,7 @@ const index = () => {
 				<>
 					<div className="sec_left">
 						<div className="sec_left_scroll">
-							<Header contentInfo={contentInfo} onClickBack={() => {}} />
+							<Header title={contentInfo.albumName} onClickBack={() => {}} />
 
 							{/* DummyPlater */}
 							<div className="vod vod-type-2 vod-fix-wrap">
@@ -172,7 +178,9 @@ const index = () => {
 					</div>
 				</>
 			) : (
-				<p> no params</p>
+				<>
+					<p>U+모바일tv는 70여개의 실시간 채널, 영화, 해외시리즈, 애니메이션 등 20만여편의 동영상 중 내게 맞는 동영상을 추천해주는 앱 서비스 힙니다.</p>
+				</>
 			)}
 		</>
 	);

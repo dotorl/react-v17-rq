@@ -1,18 +1,12 @@
 import FocusButton from '@components/detail/FocusButton';
-import ContentInfo from '@interfaces/ContentInfo';
 import React, { useEffect, useState } from 'react';
-
 interface Props {
-	contentInfo: ContentInfo;
+	title: string;
 	onClickBack?: () => void;
 }
 
-const Header = ({ contentInfo, onClickBack }: Props) => {
+const Header = ({ title, onClickBack }: Props) => {
 	const [opacity, setOpacity] = useState(0);
-
-	useEffect(() => {
-		console.log('contentInfo :  ', contentInfo);
-	}, [contentInfo]);
 
 	const onClickBackFunc = () => {
 		if (onClickBack) {
@@ -27,7 +21,7 @@ const Header = ({ contentInfo, onClickBack }: Props) => {
 				<i className="btn btn-prev" />
 			</FocusButton>
 			<p className="text-center title" style={{ opacity: opacity }}>
-				{contentInfo.albumName}
+				{title}
 			</p>
 		</div>
 	);
