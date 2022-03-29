@@ -8,6 +8,7 @@
 			"@hooks/*": ["src/hooks/*"],
 			"@interfaces/*": ["src/interfaces/*"],
 			"@layouts/*": ["src/layouts/*"],
+			"@misc/*": ["src/misc/*"],
 			"@pages/*": ["src/pages/*"],
 			"@utils/*": ["src/utils/*"],
 			"@static/*": ["src/static/*"],
