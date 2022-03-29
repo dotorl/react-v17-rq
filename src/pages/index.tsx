@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 import useParams from '@hooks/useParams';
@@ -7,15 +6,16 @@ import Title from '@components/detail/Title';
 import ContentInfo from '@interfaces/ContentInfo';
 import { useQuery } from 'react-query';
 import { getContentInfo, getSetting } from '../api/index';
+import { getFirebaseLink } from '@utils/firebaselink';
 
 const index = () => {
 	const params = useParams();
 	const albumId = params.get('id');
+	const [firebaseLink, setFirebaseLink] = useState('');
 
-	// const { data: settingData } = useQuery('contentInfo', async () => {
-	// 	const { data } = await axios.get('/setting');
-	// 	return data;
-	// });
+	console.log('############ ENV TEST ###########');
+	console.log(process.env.REACT_APP_DB_HOST);
+	console.log(process.env.REACT_APP_FIREBASE_API_KEY);
 
 	const { data: settingData } = useQuery('settingInfo', getSetting);
 	const {
@@ -49,9 +49,26 @@ const index = () => {
 	}, [isError]);
 
 	useEffect(() => {
-		console.log('useQuery :: ');
-		console.log(contentInfo);
-	}, [contentInfo]);
+		if (!firebaseLink) {
+			getLink();
+		} else {
+			console.log(' is firebaseLink ', firebaseLink);
+		}
+	}, [firebaseLink]);
+
+	const getLink = async () => {
+		const params = {
+			albumId: 'M01164R320PPV00',
+			catId: 'E91VS',
+			serCatId: undefined,
+			albumName: '',
+			synopsis: '',
+			imgUrl: '',
+			imgFileName: '',
+		};
+		const link = await getFirebaseLink(params);
+		setFirebaseLink(link);
+	};
 
 	if (isLoading) {
 		return <>Loading....</>;
