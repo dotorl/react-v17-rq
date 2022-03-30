@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Main from '@pages/index';
+import TestPage from '@pages/test';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 
@@ -19,6 +20,7 @@ function App() {
 				<BrowserRouter>
 					<Routes>
 						<Route path="/" element={<Main />} />
+						<Route path="/test" element={<TestPage />} />
 					</Routes>
 				</BrowserRouter>
 			</QueryClientProvider>
