@@ -4,18 +4,22 @@ import useParams from '@hooks/useParams';
 import Header from '@components/detail/Header';
 import Title from '@components/detail/Title';
 import ContentInfo from '@interfaces/ContentInfo';
-import { useQuery } from 'react-query';
+import { QueryClient, useQuery } from 'react-query';
 import { getContentInfo, getSetting } from '../api/index';
 import { getFirebaseLink } from '@utils/firebaselink';
+import { getIntentUrl } from '@utils/redirect';
+import { URLSearchParams } from 'url';
+import queryString from 'query-string';
+import { useLocation } from 'react-router-dom';
 
-const index = () => {
+const index = (props) => {
 	const params = useParams();
-	const albumId = params.get('id');
+	const location = useLocation();
+
 	const [firebaseLink, setFirebaseLink] = useState('');
 
-	console.log('############ ENV TEST ###########');
-	console.log(process.env.REACT_APP_DB_HOST);
-	console.log(process.env.REACT_APP_FIREBASE_API_KEY);
+	const aRtype = params.get('a_rtype');
+	const iRtype = params.get('i_rtype');
 
 	const { data: settingData } = useQuery('settingInfo', getSetting);
 	const {
@@ -25,9 +29,11 @@ const index = () => {
 		isFetching,
 		data: contentInfo,
 	} = useQuery<ContentInfo, Error>('contentInfo', getContentInfo, {
-		retry: 1,
+		retry: 3,
 		staleTime: 6000,
 		cacheTime: 3000,
+		enabled: false,
+		refetchOnWindowFocus: false,
 		//! The query will not execute until the settingData exists
 		// enabled: !!settingData,
 		// initialData: {}				// 캐시에 유지
@@ -35,28 +41,53 @@ const index = () => {
 	});
 
 	useEffect(() => {
-		console.log('%c #################  albumId', 'color:#ff0');
-		if (!albumId) {
-			// TODO: id 없으면 default 화면 보여주기
-			console.log('id 없으면 default 화면 보여주기');
+		// TODO: ERROR
+		if (isError) {
+			console.log('TODO: 상세페이지 조회 Error라서 default Page로 이동');
 		}
-	}, [albumId]);
-
-	useEffect(() => {
-		// TODO ERROR
-		console.log('%c #################  error ', 'color:#ff0');
-		console.log(isError);
 	}, [isError]);
 
 	useEffect(() => {
 		if (!firebaseLink) {
-			getLink();
+			settingFirebaseLink();
 		} else {
-			console.log(' is firebaseLink ', firebaseLink);
+			console.log(' ************** firebaseLink ************* ', firebaseLink);
 		}
 	}, [firebaseLink]);
 
-	const getLink = async () => {
+	useEffect(() => {
+		// !VOD 상세페이지 ->  rtype, initType
+		// !그외 -> aRtype, iRtype
+		console.group('%c ######### urlParams -> type 확인 및 newParams -> return intentUrl ##########', 'color:yellow');
+
+		const param = settingParamsType();
+		console.log('url param : ', param);
+		const intentUrl = getIntentUrl(param);
+		console.log('intentUrl : ', intentUrl);
+		console.groupEnd();
+
+		if (intentUrl?.android) {
+			window.location.href = intentUrl.android;
+		}
+
+		if (aRtype === 'live_vod') {
+			// TODO: VOD 상세페이지 일때니까 API 호출하고 화면그려야함
+			console.log('%c *********** TODO: VOD 상세페이지 일때니까 API 호출하고 화면그려야함', 'color:pink');
+		} else {
+			// TODO: Default Page
+			console.log('%c *********** TODO: Default Page', 'color:pink');
+		}
+	}, [params]);
+
+	// URL parmas 반복문 통해 key, value 세팅
+	const settingParamsType = () => {
+		const strUrl = location.search;
+		const params = queryString.parse(strUrl);
+		return params;
+	};
+
+	// Firebase Link 세팅
+	const settingFirebaseLink = async () => {
 		const params = {
 			albumId: 'M01164R320PPV00',
 			catId: 'E91VS',
@@ -80,7 +111,7 @@ const index = () => {
 
 	return (
 		<>
-			{albumId && isSuccess ? (
+			{isSuccess ? (
 				<>
 					<div className="sec_left">
 						<div className="sec_left_scroll">
