@@ -81,6 +81,7 @@ export interface IdefaultParamsType4 {
 	cat_depth2: string;
 	cat_depth3: string;
 	cat_depth4: string;
+	is_splash: string;
 }
 
 export const mapDefaultParamsType4 = (param): IdefaultParamsType4 => {
@@ -91,6 +92,7 @@ export const mapDefaultParamsType4 = (param): IdefaultParamsType4 => {
 		cat_depth2: param.cat_depth2 || '',
 		cat_depth3: param.cat_depth3 || '',
 		cat_depth4: param.cat_depth4 || '',
+		is_splash: param.is_splash || '',
 	};
 };
 
@@ -139,6 +141,37 @@ export const mapDefaultParamsType6 = (param): IdefaultParamsType6 => {
 		series_category_id: param.series_category_id || '',
 		series_num: param.series_num || '',
 		is_splash: param.is_splash || '',
+		appType: param.appType || '',
+		share_type: param.share_type || '',
+	};
+};
+
+// 6. VOD 상세페이지(유플릭스)
+export interface IdefaultParamsType6_1 {
+	rtype: string;
+	initType: string;
+	pType: string;
+	albumId: string;
+	cateId: string;
+	seriesYn: string;
+	seriesCateId: string;
+	genreId: string;
+	applive_yn: string;
+	appType: string;
+	share_type: string;
+}
+
+export const mapDefaultParamsType6_1 = (param): IdefaultParamsType6_1 => {
+	return {
+		rtype: param.rtype || '',
+		initType: param.initType || '',
+		pType: param.pType || '',
+		albumId: param.albumId || '',
+		cateId: param.cateId || '',
+		seriesYn: param.seriesYn || '',
+		seriesCateId: param.seriesCateId || '',
+		genreId: param.genreId || '',
+		applive_yn: param.applive_yn || '',
 		appType: param.appType || '',
 		share_type: param.share_type || '',
 	};
