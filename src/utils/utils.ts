@@ -42,3 +42,15 @@ export function formatSizeString(bytes: number, decimals = 2) {
 	const i = Math.floor(Math.log(bytes) / Math.log(k));
 	return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
 }
+
+export const getIsAndroid = (): boolean => {
+	return /Android/i.test(navigator.userAgent);
+};
+
+export const getIsMobile = (): boolean => {
+	return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+};
+
+export const getIsIOS = (): boolean => {
+	return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+};

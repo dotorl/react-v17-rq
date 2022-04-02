@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 const TestPage = () => {
 	return (
-		<div style={{ textAlign: 'center', fontSize: '1.5rem' }}>
+		<div className="test_samplePage">
 			<h2>1.실시간 채널</h2>
 			<div>
 				<Link to="/?a_rtype=live_vod&i_rtype=live_vod&service_id=761&multi_channel=N&is_splash=Y">멀티채널</Link>
@@ -75,7 +75,7 @@ const TestPage = () => {
 			</div>
 			<hr />
 
-			<h2>6.VOD상세페이지(유플릭스)</h2>
+			<h2>6.VOD상세페이지</h2>
 			<div>
 				<Link to="/?a_rtype=detail_page&i_rtype=detail_page&i_vod_type=2&vod_type=Vod&contents_id=M011587733PPV00&category_id=E91VM&series_num=-1&series_category_id=&is_splash=Y&share_type=F">
 					단편
@@ -125,6 +125,20 @@ const TestPage = () => {
 				<Link to="/?a_rtype=main&i_rtype=main&is_splash=Y">비디오포털 메인화면</Link>
 			</div>
 			<hr />
+
+			<h2>기타 테스트 - direct </h2>
+			<div>
+				<a
+					href="hdtvexternalcall://uri?uri=https://bit.ly/3qRxsMx&push=Y&main_run=Y&auth_check=Y&backkey_finish=&is_splash=Y&miix_login=&packageName=com.uplus.onphone"
+					target="_blank"
+					rel="noreferrer"
+				>
+					{/* pushParam=hdtvexternalcall%3A%2F%2Furi%3Furi%3Dhttps%3A%2F%2Fbit.ly%2F3qRxsMx%26push%3DY%26main_run%3DY%26auth_check%3DY%26backkey_finish%3D%26is_splash%3DY%26miix_login%3D%26packageName%3Dcom.uplus.onphone */}
+					push
+				</a>
+			</div>
+
+			<br />
 		</div>
 	);
 };

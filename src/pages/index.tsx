@@ -11,6 +11,8 @@ import { getIntentUrl } from '@utils/redirect';
 import { URLSearchParams } from 'url';
 import queryString from 'query-string';
 import { useLocation } from 'react-router-dom';
+import axios from 'axios';
+import DefaultPage from '@components/DefaultPage';
 
 const index = (props) => {
 	const params = useParams();
@@ -21,6 +23,8 @@ const index = (props) => {
 	const aRtype = params.get('a_rtype');
 	const iRtype = params.get('i_rtype');
 
+	const queryClient = new QueryClient();
+
 	const { data: settingData } = useQuery('settingInfo', getSetting);
 	const {
 		isLoading,
@@ -28,10 +32,11 @@ const index = (props) => {
 		isError,
 		isFetching,
 		data: contentInfo,
+		refetch: contentInfoRefetch,
 	} = useQuery<ContentInfo, Error>('contentInfo', getContentInfo, {
 		retry: 3,
 		staleTime: 6000,
-		cacheTime: 3000,
+		// cacheTime: 5000, // 0으로 안하면 inactive 상태에서 해당 초만큼 대기해서 값을 그대로 사용해서 화면 변화를 이룰 수 없음 ( 테스트용으로 빨리할 때 )
 		enabled: false,
 		refetchOnWindowFocus: false,
 		//! The query will not execute until the settingData exists
@@ -66,15 +71,18 @@ const index = (props) => {
 		console.log('intentUrl : ', intentUrl);
 		console.groupEnd();
 
-		if (intentUrl?.android) {
-			window.location.href = intentUrl.android;
-		}
+		// if (intentUrl?.android) {
+		// 	window.location.href = intentUrl.android;
+		// }
 
-		if (aRtype === 'live_vod') {
+		// VOD 상세페이지 (유플릭스) 의 경우는 다른 스키마라서 해당 스키마일경우도 따로 찾아야함.
+		if (aRtype === 'detail_page') {
 			// TODO: VOD 상세페이지 일때니까 API 호출하고 화면그려야함
 			console.log('%c *********** TODO: VOD 상세페이지 일때니까 API 호출하고 화면그려야함', 'color:pink');
+			contentInfoRefetch();
 		} else {
 			// TODO: Default Page
+			// queryClient.removeQueries('contentInfo');
 			console.log('%c *********** TODO: Default Page', 'color:pink');
 		}
 	}, [params]);
@@ -226,9 +234,7 @@ const index = (props) => {
 					</div>
 				</>
 			) : (
-				<>
-					<p>U+모바일tv는 70여개의 실시간 채널, 영화, 해외시리즈, 애니메이션 등 20만여편의 동영상 중 내게 맞는 동영상을 추천해주는 앱 서비스 힙니다.</p>
-				</>
+				<DefaultPage />
 			)}
 		</>
 	);

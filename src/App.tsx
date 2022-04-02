@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Main from '@pages/index';
 import TestPage from '@pages/test';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import { getIsMobile } from './utils/utils';
 
 function App() {
 	(async () => {
@@ -12,6 +13,15 @@ function App() {
 	})();
 
 	const queryClient = new QueryClient();
+	const isMobile = getIsMobile();
+
+	useEffect(() => {
+		if (isMobile) {
+			document.getElementsByTagName('html')[0].classList.add('mobile-mode');
+		} else {
+			document.getElementsByTagName('html')[0].classList.remove('mobile-mode');
+		}
+	}, [isMobile]);
 
 	return (
 		<>
