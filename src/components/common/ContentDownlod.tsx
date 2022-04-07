@@ -1,9 +1,12 @@
 import React, { forwardRef } from 'react';
 
-const ContentDownlod = (props, ref) => {
+interface IProps {
+	title?: string;
+}
+const ContentDownlod = ({ title }: IProps, ref) => {
 	return (
 		<div className="contents-download" ref={ref}>
-			<strong>App 다운로드</strong>
+			<strong>{title}</strong>
 			<div className="btn-downloads">
 				<a href="#">
 					<i></i>

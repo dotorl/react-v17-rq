@@ -3,19 +3,19 @@ import React, { useEffect, useRef } from 'react';
 import defaultImg from '../static/res/images/samplebg.jpeg';
 import ContentDownlod from './common/ContentDownlod';
 
-interface Props {
+interface IProps {
 	contentInfo: ContentInfo;
 }
 
-const DetailPage = ({ contentInfo }) => {
+const DetailPage = ({ contentInfo }: IProps) => {
 	const thumbRef = useRef<HTMLDivElement>(null);
 	const downloadRef = useRef<HTMLDivElement>(null);
 	const infoRef = useRef<HTMLDivElement>(null);
 
 	const handleResize = () => {
 		if (thumbRef.current && downloadRef.current && infoRef.current) {
-			const thumbElHeight = thumbRef.current.getBoundingClientRect().height;
-			const appDownElHeight = downloadRef.current.getBoundingClientRect().height;
+			const thumbElHeight = parseInt(thumbRef.current.getBoundingClientRect().height.toString(), 10);
+			const appDownElHeight = parseInt(downloadRef.current.getBoundingClientRect().height.toString(), 10);
 			infoRef.current.style.paddingTop = `${thumbElHeight}px`;
 			infoRef.current.style.paddingBottom = `${appDownElHeight}px`;
 		}
@@ -28,6 +28,10 @@ const DetailPage = ({ contentInfo }) => {
 			window.removeEventListener('resize', handleResize);
 		};
 	}, []);
+
+	useEffect(() => {
+		console.log('contentInfo', contentInfo);
+	}, [contentInfo]);
 
 	return (
 		<div id="wrap" className="wrap-contents">
@@ -44,59 +48,45 @@ const DetailPage = ({ contentInfo }) => {
 				</div>
 				<div className="contents-info" ref={infoRef}>
 					<div className="contents-description">
-						<h1>어벤져스 : 인피니티워</h1>
+						<h1>{contentInfo.albumName}</h1>
+
 						<ul className="des">
-							<li>액션</li>
-							<li>2019.04.24</li>
-							<li>181분</li>
-							<li>15세이상</li>
-							<li>어학자막</li>
+							{contentInfo.contentInfos.map((item, index) => (
+								<li key={index}>{item.info}</li>
+							))}
 						</ul>
+
 						<ul className="people">
-							<li>
-								<strong>연출/극본</strong>
-								<div>
-									<span>안소니 루소</span>
-								</div>
-							</li>
-							<li>
-								<strong>출연</strong>
-								<div>
-									<span>로버트 다우니 주니어</span>,<span>크리스 에반스</span>,<span>로버트 다우니 주니어</span>,<span>크리스 에반스</span>
-								</div>
-							</li>
+							{(contentInfo.directors.length > 0 || contentInfo.actors.length > 0) && (
+								<>
+									{contentInfo.directors.length > 0 && (
+										<li>
+											<strong>연출/극본</strong>
+											<div>
+												{contentInfo.directors
+													.slice(0, 4)
+													.map((director, index) => <span key={index}>{director}</span>)
+													.reduce((total: any, current) => (total.length > 0 ? [total, ', ', current] : [current]), [])}
+											</div>
+										</li>
+									)}
+									{contentInfo.actors.length > 0 && (
+										<li>
+											<strong>출연</strong>
+											<div>
+												{contentInfo.actors
+													.slice(0, 4)
+													.map((actor, index) => <span key={index}>{actor}</span>)
+													.reduce((total: any, current) => (total.length > 0 ? [total, ', ', current] : [current]), [])}
+											</div>
+										</li>
+									)}
+								</>
+							)}
 						</ul>
-						<div className="synopsis">
-							<p>
-								노바에서 파워 스톤을 손에 넣은 타노스는 아스가르드 피난선을 공격해 로키와 토르에게서 스페이스 스톤을 손에 넣는다. 타노스는 지구에 있는 인피니트
-								스톤을 확보 노바에서 파워 스톤을 손에 넣은 타노스는 아스가르드 피난선을 공격해 로키와 토르에게서 스페이스 스톤을 손에 넣는다. 타노스는 지구에
-								있는 인피니트 스톤을 확보 노바에서 파워 스톤을 손에 넣은 타노스는 아스가르드 피난선을 공격해 로키와 토르에게서 스페이스 스톤을 손에 넣는다.
-								타노스는 지구에 있는 인피니트 스톤을 확보 노바에서 파워 스톤을 손에 넣은 타노스는 아스가르드 피난선을 공격해 로키와 토르에게서 스페이스 스톤을
-								손에 넣는다. 타노스는 지구에 있는 인피니트 스톤을 확보 노바에서 파워 스톤을 손에 넣은 타노스는 아스가르드 피난선을 공격해 로키와 토르에게서
-								스페이스 스톤을 손에 넣는다. 타노스는 지구에 있는 인피니트 스톤을 확보 노바에서 파워 스톤을 손에 넣은 타노스는 아스가르드 피난선을 공격해 로키와
-								토르에게서 스페이스 스톤을 손에 넣는다. 타노스는 지구에 있는 인피니트 스톤을 확보
-							</p>
-						</div>
+						<div className="synopsis">{contentInfo.synopsis}</div>
 					</div>
-
-					<ContentDownlod ref={downloadRef} />
-
-					{/* <div className="contents-download" ref={downloadRef}>
-						<strong>App 다운로드</strong>
-						<div className="btn-downloads">
-							<a href="#">
-								<i></i>
-								<span>Google Play</span>
-							</a>
-							<a href="#">
-								<i></i>
-								<span>App Store</span>
-							</a>
-						</div>
-						<a href="#" className="btn-link">
-							U+모바일tv 앱으로 보기
-						</a>
-					</div> */}
+					<ContentDownlod ref={downloadRef} title="App 다운로드" />
 				</div>
 			</section>
 		</div>

@@ -17,17 +17,19 @@ const DefaultPage = () => {
 						<motion.dt layout animate={{ opacity: 1 }} initial={{ opacity: 0 }} exit={{ opacity: 0 }} transition={{ duration: 1 }}>
 							내게 맞는 영상 추천!
 						</motion.dt>
-						<motion.dd layout animate={{ opacity: 1 }} initial={{ opacity: 0 }} exit={{ opacity: 0 }} transition={{ duration: 2 }}>
+						<motion.dd layout animate={{ opacity: 1 }} initial={{ opacity: 0 }} exit={{ opacity: 0 }} transition={{ duration: 1.5 }}>
 							<span>70여 개의 실시간 채널, 영화, 해외시리즈, </span>
 							<span>애니메이션 등 20만 여 편의 동영상 중</span>
 							<br />
 							<span>내게 맞는 동영상을 추천해주는 앱 서비스</span>
 						</motion.dd>
 					</dl>
-					<ContentDownlod />
+					<motion.div layout animate={{ opacity: 1 }} initial={{ opacity: 0 }} exit={{ opacity: 0 }} transition={{ delay: 1, duration: 1 }}>
+						<ContentDownlod title="지금 다운로드 하세요!" />
+					</motion.div>
 				</section>
 
-				<motion.div className="bg" layout animate={{ opacity: 1 }} initial={{ opacity: 0 }} exit={{ opacity: 0 }} transition={{ duration: 2 }}>
+				<motion.div className="bg" layout animate={{ opacity: 1 }} initial={{ opacity: 0 }} exit={{ opacity: 0 }} transition={{ duration: 1.5 }}>
 					<div></div>
 				</motion.div>
 			</div>
