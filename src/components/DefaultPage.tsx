@@ -27,7 +27,7 @@ const DefaultPage = () => {
 					<ContentDownlod />
 				</section>
 
-				<motion.div className="bg" layout animate={{ opacity: 1 }} initial={{ opacity: 0 }} exit={{ opacity: 0 }} transition={{ duration: 3 }}>
+				<motion.div className="bg" layout animate={{ opacity: 1 }} initial={{ opacity: 0 }} exit={{ opacity: 0 }} transition={{ duration: 2 }}>
 					<div></div>
 				</motion.div>
 			</div>
