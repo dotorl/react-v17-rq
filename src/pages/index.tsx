@@ -12,8 +12,8 @@ import { URLSearchParams } from 'url';
 import queryString from 'query-string';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
-import DefaultPage from '@components/DefaultPage';
-import DetailPage from '@components/DetailPage';
+import DefaultContents from '@components/DefaultContents';
+import DetailContents from '@components/DetailContents';
 
 const index = (props) => {
 	const params = useParams();
@@ -123,7 +123,7 @@ const index = (props) => {
 		return <>ERROR</>;
 	}
 
-	return <>{isSuccess ? <DetailPage contentInfo={contentInfo} /> : <DefaultPage />}</>;
+	return <>{isSuccess ? <DetailContents contentInfo={contentInfo} /> : <DefaultContents />}</>;
 };
 
 export default index;
