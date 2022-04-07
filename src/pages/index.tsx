@@ -19,6 +19,7 @@ const index = (props) => {
 	const params = useParams();
 	const location = useLocation();
 
+	const [pageType, setPageType] = useState('default');
 	const [firebaseLink, setFirebaseLink] = useState('');
 
 	const aRtype = params.get('a_rtype');
@@ -27,31 +28,6 @@ const index = (props) => {
 	const queryClient = new QueryClient();
 
 	const { data: settingData } = useQuery('settingInfo', getSetting);
-	const {
-		isLoading,
-		isSuccess,
-		isError,
-		isFetching,
-		data: contentInfo,
-		refetch: contentInfoRefetch,
-	} = useQuery<ContentInfo, Error>('contentInfo', getContentInfo, {
-		retry: 3,
-		staleTime: 6000,
-		cacheTime: 0, // 0으로 안하면 inactive 상태에서 해당 초만큼 대기해서 값을 그대로 사용해서 화면 변화를 이룰 수 없음 ( 테스트용으로 빨리할 때 )
-		enabled: false,
-		refetchOnWindowFocus: false,
-		//! The query will not execute until the settingData exists
-		// enabled: !!settingData,
-		// initialData: {}				// 캐시에 유지
-		// placeholderData: {}	// 캐시에 유지 X
-	});
-
-	useEffect(() => {
-		// TODO: ERROR
-		if (isError) {
-			console.log('TODO: 상세페이지 조회 Error라서 default Page로 이동');
-		}
-	}, [isError]);
 
 	// useEffect(() => {
 	// 	if (!firebaseLink) {
@@ -78,18 +54,14 @@ const index = (props) => {
 
 		// VOD 상세페이지 (유플릭스) 의 경우는 다른 스키마라서 해당 스키마일경우도 따로 찾아야함.
 		if (aRtype === 'detail_page') {
+			setPageType('detail');
 			// TODO: VOD 상세페이지 일때니까 API 호출하고 화면그려야함
-			console.log('%c *********** TODO: VOD 상세페이지 일때니까 API 호출하고 화면그려야함', 'color:pink');
-			contentInfoRefetch();
 			document.getElementsByTagName('html')[0].classList.remove('index');
 		} else {
+			setPageType('default');
 			// TODO: Default Page
-			// queryClient.removeQueries('contentInfo');
 			console.log('%c *********** TODO: Default Page', 'color:pink');
-
-			// setTimeout(() => {
 			document.getElementsByTagName('html')[0].classList.add('index');
-			// }, 2000);
 		}
 	}, [params]);
 
@@ -115,15 +87,7 @@ const index = (props) => {
 		setFirebaseLink(link);
 	};
 
-	if (isLoading) {
-		return <>Loading....</>;
-	}
-
-	if (isError) {
-		return <>ERROR</>;
-	}
-
-	return <>{isSuccess ? <DetailContents contentInfo={contentInfo} /> : <DefaultContents />}</>;
+	return <>{pageType === 'default' ? <DefaultContents /> : <DetailContents />}</>;
 };
 
 export default index;
