@@ -33,7 +33,7 @@ export default interface ContentInfo {
 	imgUrl: string;
 	faceMatchAssetId: string;
 	prevAlbumId: string;
-	previewFlag: PreviewFlag;
+	previewFlag?: PreviewFlag;
 	prInfo: string;
 	isAdult: boolean;
 	runtime: string;

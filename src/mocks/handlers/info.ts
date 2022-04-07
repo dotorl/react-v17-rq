@@ -3,6 +3,7 @@ import { rest } from 'msw';
 export const info = rest.get('/info', (req, res, ctx) => {
 	return res(
 		ctx.status(200),
+		ctx.delay(2000),
 		ctx.json({
 			aws_poster_url: 'http://d3c5s6bottxrkq.cloudfront.net/poster/',
 			aws_still_url: 'http://d3c5s6bottxrkq.cloudfront.net/still/',
