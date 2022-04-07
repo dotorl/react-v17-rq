@@ -272,6 +272,15 @@ html.mobile-mode .contents-download .btn-link {
 	background-position: 50% 50%;
 }
 
+.wrap-contents .contents .contents-thumbnail .inner > div > img {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
 .wrap-contents .contents .contents-thumbnail .btn-goback {
 	width: 4.5rem;
 	height: 4.5rem;
