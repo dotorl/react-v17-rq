@@ -1,53 +1,27 @@
 import ContentInfo from '@interfaces/ContentInfo';
 import React, { useEffect, useRef } from 'react';
-import { debounce } from 'lodash';
 import defaultImg from '../static/res/images/samplebg.jpeg';
+import ContentDownlod from './common/ContentDownlod';
 
 interface Props {
 	contentInfo: ContentInfo;
 }
 
 const DetailPage = ({ contentInfo }) => {
-	// const thumbEl = document.querySelector('.contents-thumbnail')
-	// const appDownEl = document.querySelector('.wrap-contents .contents-download');
-
-	// useRef getBoundingClientRect
 	const thumbRef = useRef<HTMLDivElement>(null);
 	const downloadRef = useRef<HTMLDivElement>(null);
 	const infoRef = useRef<HTMLDivElement>(null);
 
 	const handleResize = () => {
-		console.log('브라우저 resize');
-
 		if (thumbRef.current && downloadRef.current && infoRef.current) {
 			const thumbElHeight = thumbRef.current.getBoundingClientRect().height;
 			const appDownElHeight = downloadRef.current.getBoundingClientRect().height;
-
 			infoRef.current.style.paddingTop = `${thumbElHeight}px`;
 			infoRef.current.style.paddingBottom = `${appDownElHeight}px`;
 		}
-
-		// const thumbElHeight = parseInt(thumbEl.getBoundingClientRect().height);
-		// const appDownElHeight = parseInt(appDownEl.getBoundingClientRect().height);
-		// infoEl.style.paddingTop = `${thumbElHeight}px`;
-		// infoEl.style.paddingBottom = `${appDownElHeight}px)`;
 	};
 
 	useEffect(() => {
-		console.log('detail useEffect ');
-
-		// const thumbElHeight = parseInt(thumbEl.getBoundingClientRect().height);
-		// const appDownElHeight = parseInt(appDownEl.getBoundingClientRect().height);
-		// infoEl.style.paddingTop = `${thumbElHeight}px`;
-		// infoEl.style.paddingBottom = `${appDownElHeight}px`;
-
-		// if (thumbRef.current && downloadRef.current && infoRef.current) {
-		// 	const thumbElHeight = thumbRef.current.getBoundingClientRect().height;
-		// 	const appDownElHeight = downloadRef.current.getBoundingClientRect().height;
-
-		// 	infoRef.current.style.paddingTop = `${thumbElHeight}px`;
-		// 	infoRef.current.style.paddingBottom = `${appDownElHeight}px`
-		// }
 		handleResize();
 		window.addEventListener('resize', handleResize);
 		return () => {
@@ -104,7 +78,10 @@ const DetailPage = ({ contentInfo }) => {
 							</p>
 						</div>
 					</div>
-					<div className="contents-download" ref={downloadRef}>
+
+					<ContentDownlod ref={downloadRef} />
+
+					{/* <div className="contents-download" ref={downloadRef}>
 						<strong>App 다운로드</strong>
 						<div className="btn-downloads">
 							<a href="#">
@@ -119,7 +96,7 @@ const DetailPage = ({ contentInfo }) => {
 						<a href="#" className="btn-link">
 							U+모바일tv 앱으로 보기
 						</a>
-					</div>
+					</div> */}
 				</div>
 			</section>
 		</div>

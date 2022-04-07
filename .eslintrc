@@ -28,7 +28,8 @@
 
 		// warning 로그 많이 올라와서 임의 주석 처리
 		"@typescript-eslint/no-empty-function": "off",
-		"@typescript-eslint/no-unused-vars": "off"
+		"@typescript-eslint/no-unused-vars": "off",
+		"react/display-name": "off"
 	},
 	"settings": {
 		"react": {

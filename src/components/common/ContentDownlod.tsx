@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 
-const ContentDownlod = () => {
+const ContentDownlod = (props, ref) => {
 	return (
-		<div className="contents-download">
+		<div className="contents-download" ref={ref}>
 			<strong>App 다운로드</strong>
 			<div className="btn-downloads">
 				<a href="#">
@@ -21,5 +21,4 @@ const ContentDownlod = () => {
 		</div>
 	);
 };
-
-export default ContentDownlod;
+export default forwardRef(ContentDownlod);
