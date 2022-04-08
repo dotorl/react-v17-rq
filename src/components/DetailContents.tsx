@@ -4,6 +4,7 @@ import defaultImg from '../static/res/images/samplebg.jpeg';
 import ContentDownlod from './common/ContentDownlod';
 import { useQuery } from 'react-query';
 import { getContentInfo } from '../api/index';
+import Skeleton from 'react-loading-skeleton';
 
 // interface IProps {
 // 	contentInfo: ContentInfo;
@@ -14,6 +15,7 @@ const DetailPage = () => {
 		isLoading,
 		isSuccess,
 		isError,
+		isFetching,
 		data: contentInfo,
 	} = useQuery<ContentInfo, Error>('contentInfo', getContentInfo, {
 		retry: 3,
@@ -22,9 +24,11 @@ const DetailPage = () => {
 		refetchOnWindowFocus: false,
 		// initialData: {}				// 캐시에 유지
 		placeholderData: {
-			actors: ['유지태', '이정현', '이다윗', '정성화'],
+			// actors: ['유지태', '이정현', '이다윗', '정성화'],
+			actors: [],
 			albumId: 'M0116C2015PPV00',
-			albumName: '스플릿 SampleData',
+			albumName: '',
+			// albumName: '스플릿 SampleData',
 			canDownload: true,
 			catId: undefined,
 			commentCount: 100,
@@ -82,8 +86,9 @@ const DetailPage = () => {
 				'http://210.182.60.11/still/ST_M0116C2015PPV00_165303.jpg',
 				'http://210.182.60.11/still/ST_M0116C2015PPV00_165304.jpg',
 			],
-			synopsis:
-				'밑바닥 인생들의 반격이 시작된다! 베일에 싸였던 도박 볼링의 세계. "유지태"와 "이다윗"의 완벽 케미. 볼링으로 꼬인 그들의 인생 드라마! 과거 볼링계의 전설이라 불리며 이름을 날리던 `철종`은 불운의 사고로 모든 것을 잃고 낮에는 가짜석유 판매원, 밤에는 도박볼링판에서 선수로 뛰며 별 볼 일 없는 인생을 살아간다. 그러던 어느 날, 자신만의 세계에 빠져 살지만 볼링만큼은 천재적인 능력을 갖고 있는 `영훈`을 우연히 만난 후, `철종`은 `영훈`을 자신의 파트너로 끌어들이게 된다. `철종`의 조력자이자 도박판의 브로커 `희진`의 주도 아래 드디어 큰 판이 벌어지게 되고, `철종`과 끈질긴 악연의 `두꺼비`까지 가세해 치열한 승부가 시작된다!',
+			// synopsis:
+			// 	'밑바닥 인생들의 반격이 시작된다! 베일에 싸였던 도박 볼링의 세계. "유지태"와 "이다윗"의 완벽 케미. 볼링으로 꼬인 그들의 인생 드라마! 과거 볼링계의 전설이라 불리며 이름을 날리던 `철종`은 불운의 사고로 모든 것을 잃고 낮에는 가짜석유 판매원, 밤에는 도박볼링판에서 선수로 뛰며 별 볼 일 없는 인생을 살아간다. 그러던 어느 날, 자신만의 세계에 빠져 살지만 볼링만큼은 천재적인 능력을 갖고 있는 `영훈`을 우연히 만난 후, `철종`은 `영훈`을 자신의 파트너로 끌어들이게 된다. `철종`의 조력자이자 도박판의 브로커 `희진`의 주도 아래 드디어 큰 판이 벌어지게 되고, `철종`과 끈질긴 악연의 `두꺼비`까지 가세해 치열한 승부가 시작된다!',
+			synopsis: '',
 			terrCh: 'undefined',
 			terrChName: 'undefined',
 			thumbnailUrl: 'http://210.182.60.11/resize.php?filename=M0116C2015PPV00MC230.png&width=&height=&type=thumbnail',
@@ -123,6 +128,14 @@ const DetailPage = () => {
 		}
 	}, [isError]);
 
+	useEffect(() => {
+		console.log('isLoading : ', isLoading);
+	}, [isLoading]);
+
+	useEffect(() => {
+		console.log('isFetching : ', isFetching);
+	}, [isFetching]);
+
 	if (isLoading) {
 		return <>Loading....</>;
 	}
@@ -133,6 +146,7 @@ const DetailPage = () => {
 
 	return (
 		<>
+			{isFetching && <>Fetching.......</>}
 			{isSuccess && (
 				<div id="wrap" className="wrap-contents">
 					<section className="contents">
@@ -141,7 +155,7 @@ const DetailPage = () => {
 								<div className="inner">
 									<button className="btn-goback">뒤로가기</button>
 									<div>
-										<img src={defaultImg} />
+										<img src={contentInfo.isAdult ? contentInfo.thumbnailUrl : contentInfo.stillImageUrls[0]} />
 									</div>
 								</div>
 							</div>
@@ -155,6 +169,7 @@ const DetailPage = () => {
 										<li key={index}>{item.info}</li>
 									))}
 								</ul>
+								<Skeleton count={5} />
 
 								<ul className="people">
 									{(contentInfo.directors.length > 0 || contentInfo.actors.length > 0) && (

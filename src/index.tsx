@@ -5,6 +5,7 @@ import '@static/res/css/ui.css';
 // import '@static/res/css/index.css';
 import App from './App';
 // import reportWebVitals from './reportWebVitals';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 ReactDOM.render(
 	<React.StrictMode>
